@@ -1,6 +1,28 @@
-import { createApp } from "./app";
-import { config } from "./config";
+const express = require("express");
+const router = require("./Routes/index");
+const cors = require("cors");
 
-createApp().listen(config.port, () => {
-  console.log(`Server listening on http://localhost:${config.port}`);
+const app = express();
+
+const dotenv = require("dotenv");
+dotenv.config();
+
+// to allow json request
+app.use(express.json());
+app.use(express.urlencoded());
+// cors middleware
+const allowedOrigins = [
+    "http://localhost:5173",
+];
+
+app.use(
+    cors({
+        origin: allowedOrigins,
+    })
+);
+
+app.use("/", router);
+
+app.listen(process.env.BE_PORT ?? 5000, () => {
+  console.log("connected");
 });

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "apr-001",
+    "title": "Site Patrol Onboarding & Checklists",
+    "type": "Folder",
+    "submittedBy": "Sam HelpAdmin",
+    "status": "Pending Review",
+    "date": "2026-09-18T09:15:00+05:30",
+    "path": "My Site Patrol › My Site Patrol Card"
+  },
+  {
+    "id": "apr-002",
+    "title": "Level 2 Drone Patrol Video Demo",
+    "type": "Video",
+    "submittedBy": "Alex HelpAdmin",
+    "status": "Pending Review",
+    "date": "2026-09-18T11:40:00+05:30",
+    "path": "Drawing-Videos › Drawing-Videos Card"
+  },
+  {
+    "id": "apr-003",
+    "title": "Safety Equipment & Sensor Specs",
+    "type": "PDF",
+    "submittedBy": "Sam HelpAdmin",
+    "status": "Pending Review",
+    "date": "2026-09-18T14:05:00+05:30",
+    "path": "Site Recordings › Site Recordings"
+  },
+  {
+    "id": "apr-004",
+    "title": "360° Spatial Zone Layout & Camera Map",
+    "type": "Image",
+    "submittedBy": "Elena HelpAdmin",
+    "status": "Pending Review",
+    "date": "2026-09-18T16:30:00+05:30",
+    "path": "Site Recordings › Site Recordings"
+  }
+]

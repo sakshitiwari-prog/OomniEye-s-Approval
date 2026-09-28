@@ -1,121 +1,48 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react'
+import { ApprovalsWidget } from './components/ApprovalsWidget'
+import { ApprovalsTable } from './components/ApprovalsTable'
+import { ChatIcon, CloseIcon } from './components/icons'
+import type { Approval } from './utils/types'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [open, setOpen] = useState(true)
+  const [approvals, setApprovals] = useState<Approval[]>([])
+
+  // load the approvals from the server once
+  useEffect(() => {
+    fetch('/api/approvals')
+      .then((r) => r.json())
+      .then(setApprovals)
+      .catch(() => setApprovals([]))
+  }, [])
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
+    <main className="min-h-svh p-6">
+      {/* left side: the table (leave space on the right for the panel) */}
+      <div className="max-w-4xl">
+        <ApprovalsTable approvals={approvals} />
+      </div>
+
+      {/* bottom-right: the assistant panel */}
+      <div className="fixed right-4 bottom-4 flex flex-col items-end gap-3">
+        {open && (
+          <ApprovalsWidget
+            itemCount={approvals.length}
+            onClose={() => setOpen(false)}
+            onAction={(id) => console.log('action:', id)}
+            onReplayGreeting={() => console.log('replay greeting')}
+          />
+        )}
         <button
           type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
+          aria-label={open ? 'Close assistant' : 'Open assistant'}
+          onClick={() => setOpen((o) => !o)}
+          className="grid size-11 place-items-center rounded-full bg-brand-900 text-white shadow-lg transition hover:bg-brand-700"
         >
-          Count is {count}
+          {open ? <CloseIcon className="size-5" /> : <ChatIcon className="size-5" />}
         </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      </div>
+    </main>
   )
 }
 
